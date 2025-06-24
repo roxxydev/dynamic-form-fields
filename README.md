@@ -2,6 +2,8 @@
 
 This project demonstrate how to render forms dynamically. One can simply add multiple fields and can be flexible enough to add new field components to codebase to support other types of fields e.g. dropdown, checkbox. This project is created with [Expo](https://expo.dev) using [`create-expo-app`](https://www.npmjs.com/package/create-expo-app). I considered using Expo over React Native CLI since it simplify development by providing essential tools and integrations I only needed for a simple project like this.
 
+<img src="https://github.com/user-attachments/assets/3bdd278a-eaf0-4da3-bc7c-5d63982e56a7" width=200 />
+
 ## Get started
 
 1. Install dependencies
