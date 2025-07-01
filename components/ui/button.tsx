@@ -1,5 +1,7 @@
 import { ButtonField, TemplateVariables } from "@/types/data";
 import { processTemplateString } from "@/utils/forms";
+import { isEmpty } from "lodash";
+import { useMemo } from "react";
 import {
   StyleSheet,
   Alert,
@@ -13,20 +15,48 @@ export type ButtonProps = React.ComponentProps<typeof TouchableOpacity> & {
   templateVariables: TemplateVariables;
 };
 
-export default function FormButton({ field, templateVariables, ...props }: ButtonProps) {
+export default function FormButton({
+  field,
+  templateVariables,
+  ...props
+}: ButtonProps) {
+
+  const isVisible = useMemo(() => {
+    const conditionFieldName = field.VisibleCondition?.ID;
+    const conditionFieldValue = field.VisibleCondition?.Value;
+    if (
+      field.VisibleCondition &&
+      conditionFieldName &&
+      !isEmpty(conditionFieldName)
+    ) {
+      return (
+        field.VisibleCondition.Operator === "Equals" &&
+        conditionFieldValue === templateVariables[conditionFieldName]
+      );
+    }
+    return true;
+  }, [
+    field.VisibleCondition,
+    templateVariables,
+  ]);
+
   return (
-    <TouchableOpacity
-      {...props}
-      style={[styles.buttonBackground, props.style]}
-      onPress={(e: GestureResponderEvent) => {
-        console.log(templateVariables);
-        if (field.AlertMessage) {
-          Alert.alert(processTemplateString(field.AlertMessage, templateVariables));
-        }
-      }}
-    >
-      <Text style={styles.buttonText}>{field.Title}</Text>
-    </TouchableOpacity>
+    isVisible && (
+      <TouchableOpacity
+        {...props}
+        style={[styles.buttonBackground, props.style]}
+        onPress={(e: GestureResponderEvent) => {
+          console.log(templateVariables);
+          if (field.AlertMessage) {
+            Alert.alert(
+              processTemplateString(field.AlertMessage, templateVariables)
+            );
+          }
+        }}
+      >
+        <Text style={styles.buttonText}>{field.Title}</Text>
+      </TouchableOpacity>
+    )
   );
 }
 

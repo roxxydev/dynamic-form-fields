@@ -41,6 +41,7 @@ export interface ButtonField extends BaseField {
     variant?: 'primary' | 'secondary' | 'danger' | 'success';
     size?: 'small' | 'medium' | 'large';
   };
+  VisibleCondition?: VisibileCondition;
 }
 
 // Custom field for extensibility
@@ -76,3 +77,9 @@ export type FormValues = Record<string, FieldValue<FormField>>;
 // Template string utilities
 export type TemplateString = string;
 export type TemplateVariables = Record<string, string | number | boolean>;
+
+export type VisibileCondition = {
+  ID: string;
+  Operator: 'Equals' | 'NotEquals';
+  Value: string;
+};
